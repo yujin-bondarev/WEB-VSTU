@@ -1,14 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 import EmployeeAPI from "./api/service";
 import Table from "./Table";
+import Form from "./Form.js";
+import { useState } from "react";
+
+const initialEmployees = EmployeeAPI.all();
 
 function App() {
+  const [employees, setEmployees] = useState(initialEmployees);
+
+  const delEmp = (id) => {
+    if (EmployeeAPI.delete(id)) {
+      setEmployees(employees.filter((employee) => employee.id !== id));
+    }
+  };
+
+  const addEmployee = (employee) => {
+    const newEmployee = EmployeeAPI.add(employee);
+    if (newEmployee) {
+      setEmployees([...employees, newEmployee]);
+    }
+  };
+
   return (
     <div className="App">
-      <div className="App">
-        <Table employees={EmployeeAPI.all()} />
-      </div>
+      <Form handleSubmit={addEmployee} inEmployee={{ name: "", job: "" }} />
+      <Table employees={employees} delEmployee={delEmp} />
     </div>
   );
 }
