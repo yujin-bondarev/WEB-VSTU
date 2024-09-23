@@ -1,23 +1,23 @@
 import React from "react";
 
-const Table = ({ employees }) => {
+const Table = ({ racers, delRacers }) => {
   return (
     <table>
       <thead>
         <tr>
           <th>Name</th>
-          <th>Job</th>
+          <th>Car Model</th>
           <th>Remove</th>
         </tr>
       </thead>
       <tbody>
-        {employees.map((employee, index) => {
+        {racers.map((racer, index) => {
           return (
             <tr key={index}>
-              <td>{employee.name}</td>
-              <td>{employee.job}</td>
+              <td>{racer.name}</td>
+              <td>{racer.carModel}</td>
               <td>
-                <button>Delete</button>
+                <button onClick={() => delRacers(racer.number)}>Delete</button>
               </td>
             </tr>
           );

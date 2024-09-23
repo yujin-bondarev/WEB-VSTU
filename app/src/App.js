@@ -1,31 +1,31 @@
 import "./App.css";
-import EmployeeAPI from "./api/service";
+import RacersAPI from "./api/service";
 import Table from "./Table";
 import Form from "./Form.js";
 import { useState } from "react";
 
-const initialEmployees = EmployeeAPI.all();
+const initialracers = RacersAPI.all();
 
 function App() {
-  const [employees, setEmployees] = useState(initialEmployees);
+  const [racers, setRacers] = useState(initialracers);
 
-  const delEmp = (id) => {
-    if (EmployeeAPI.delete(id)) {
-      setEmployees(employees.filter((employee) => employee.id !== id));
+  const delRacer = (number) => {
+    if (RacersAPI.delete(number)) {
+      setRacers(racers.filter((racer) => racer.number !== number));
     }
   };
 
-  const addEmployee = (employee) => {
-    const newEmployee = EmployeeAPI.add(employee);
-    if (newEmployee) {
-      setEmployees([...employees, newEmployee]);
+  const addRacer = (racer) => {
+    const newracer = RacersAPI.add(racer);
+    if (newracer) {
+      setRacers([...racers, newracer]);
     }
   };
 
   return (
     <div className="App">
-      <Form handleSubmit={addEmployee} inEmployee={{ name: "", job: "" }} />
-      <Table employees={employees} delEmployee={delEmp} />
+      <Form handleSubmit={addRacer} inracer={{ name: "", carModel: "" }} />
+      <Table racers={racers} delRacers={delRacer} />
     </div>
   );
 }

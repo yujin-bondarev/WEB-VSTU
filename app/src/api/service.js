@@ -1,32 +1,30 @@
-const EmployeeAPI = {
-    employees: [
-      { number: 1, name: "Ben Blocker", job: "Teacher" },
-      { number: 2, name: "Dave Defender", job: "Student" },
-      { number: 3, name: "Sam Sweeper", job: "Teacher" },
-      { number: 4, name: "Matt Midfielder", job: "Student" },
-      { number: 5, name: "William Winger", job: "Student" },
-      { number: 6, name: "Fillipe Forward", job: "Rector" },
+const RacersAPI = {
+    racers: [
+      { number: 1, name: "Ben Blocker", carModel: "BMW" },
+      { number: 2, name: "Dave Defender", carModel: "AUDI" },
+      { number: 3, name: "Sam Sweeper", carModel: "Mercedes" },
+      { number: 4, name: "Matt Mnumberfielder", carModel: "Lamborghini" },
     ],
     all: function () {
-      return this.employees;
+      return this.racers;
     },
-    get: function (id) {
-      const isEmployee = (p) => p.number === id;
-      return this.employees.find(isEmployee);
+    get: function (number) {
+      const isRacer = (r) => r.number === number;
+      return this.racers.find(isRacer);
     },
-    delete: function (id) {
-      const isNotDelEmployee = (p) => p.number !== id;
-      this.employees = this.employees.filter(isNotDelEmployee);
+    delete: function (number) {
+      const isNotDelRacer = (r) => r.number !== number;
+      this.racers = this.racers.filter(isNotDelRacer);
       return;
     },
-    add: function (employee) {
-      this.employees.shift(employee);
-      return employee;
+    add: function (racer) {
+      this.racers.shift(racer);
+      return racer;
     },
-    update: function (employee) {
+    update: function (racer) {
       this.get();
-      this.employees.shift(employee);
-      return employee;
+      this.racers.shift(racer);
+      return racer;
     },
   };
-  export default EmployeeAPI;
+  export default RacersAPI;

@@ -1,18 +1,18 @@
 import React from "react";
 import { useState } from "react";
 
-const Form = ({ handleSubmit, inEmployee }) => {
-  const [employee, setEmployee] = useState(inEmployee);
+const Form = ({ handleSubmit, inracer }) => {
+  const [racer, setracer] = useState(inracer);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setEmployee({ ...employee, [name]: value });
+    setracer({ ...racer, [name]: value });
   };
 
   const onSubmit = (event) => {
     event.preventDefault();
-    handleSubmit(employee);
-    setEmployee(inEmployee);
+    handleSubmit(racer);
+    setracer(inracer);
   };
 
   return (
@@ -21,14 +21,14 @@ const Form = ({ handleSubmit, inEmployee }) => {
       <input
         type="text"
         name="name"
-        value={employee.name}
+        value={racer.name}
         onChange={handleChange}
       />
-      <label htmlFor="job">Job</label>
+      <label htmlFor="carModel">Car Model</label>
       <input
         type="text"
-        name="job"
-        value={employee.job}
+        name="carModel"
+        value={racer.carModel}
         onChange={handleChange}
       />
       <button type="submit">Add</button>
