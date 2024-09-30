@@ -17,7 +17,7 @@ const Table = ({ racers, delRacers }) => {
               <td>{racer.name}</td>
               <td>{racer.carModel}</td>
               <td>
-                <button onClick={() => delRacers(racer.number)}>Delete</button>
+                <button onClick={() => delRacers(racer.id)}>Delete</button>
               </td>
             </tr>
           );

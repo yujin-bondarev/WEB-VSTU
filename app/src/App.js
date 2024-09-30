@@ -9,9 +9,9 @@ const initialracers = RacersAPI.all();
 function App() {
   const [racers, setRacers] = useState(initialracers);
 
-  const delRacer = (number) => {
-    if (RacersAPI.delete(number)) {
-      setRacers(racers.filter((racer) => racer.number !== number));
+  const delRacer = (id) => {
+    if (RacersAPI.delete(id)) {
+      setRacers(racers.filter((racer) => racer.id !== id));
     }
   };
 

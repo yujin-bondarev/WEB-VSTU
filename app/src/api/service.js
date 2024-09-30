@@ -1,24 +1,32 @@
-const RacersAPI = {
+const RacerAPI = {
     racers: [
-      { number: 1, name: "Ben Blocker", carModel: "BMW" },
-      { number: 2, name: "Dave Defender", carModel: "AUDI" },
-      { number: 3, name: "Sam Sweeper", carModel: "Mercedes" },
-      { number: 4, name: "Matt Mnumberfielder", carModel: "Lamborghini" },
+      { id: 1, name: "Ben Blocker", carModel: "BMW" },
+      { id: 2, name: "Dave Defender", carModel: "AUDI" },
+      { id: 3, name: "Sam Sweeper", carModel: "Mercedes" },
+      { id: 4, name: "Matt Midfielder", carModel: "Lamborghini" },
     ],
     all: function () {
       return this.racers;
     },
-    get: function (number) {
-      const isRacer = (r) => r.number === number;
+    get: function (id) {
+      const isRacer = (p) => p.id === id;
       return this.racers.find(isRacer);
     },
-    delete: function (number) {
-      const isNotDelRacer = (r) => r.number !== number;
+    delete: function (id) {
+      const isNotDelRacer = (p) => p.id !== id;
       this.racers = this.racers.filter(isNotDelRacer);
-      return;
+      return true;
     },
     add: function (racer) {
-      this.racers.shift(racer);
+      if (!racer.id)
+        racer = {
+          ...racer,
+          id:
+            this.racers.reduce((prev, current) => {
+              return prev.id > current.id ? prev : current;
+            }, 0).id + 1,
+        };
+      this.racers = [...this.racers, racer];
       return racer;
     },
     update: function (racer) {
@@ -27,4 +35,4 @@ const RacersAPI = {
       return racer;
     },
   };
-  export default RacersAPI;
+  export default RacerAPI;
