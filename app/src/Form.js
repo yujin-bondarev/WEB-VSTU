@@ -1,38 +1,42 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react"; // Добавьте useState здесь
+import { TextField, Button, Box } from '@mui/material';
 
-const Form = ({ handleSubmit, inracer }) => {
-  const [racer, setracer] = useState(inracer);
+const Form = ({ handleSubmit, inRacer }) => {
+  const [racer, setRacers] = useState(inRacer);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setracer({ ...racer, [name]: value });
+    setRacers({ ...racer, [name]: value });
   };
 
   const onSubmit = (event) => {
     event.preventDefault();
     handleSubmit(racer);
-    setracer(inracer);
+    setRacers(inRacer);
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <label htmlFor="name">Name</label>
-      <input
-        type="text"
-        name="name"
-        value={racer.name}
-        onChange={handleChange}
-      />
-      <label htmlFor="carModel">Car Model</label>
-      <input
-        type="text"
-        name="carModel"
-        value={racer.carModel}
-        onChange={handleChange}
-      />
-      <button type="submit">Add</button>
-    </form>
+    
+      <Box component="form" onSubmit={onSubmit} sx={{
+        '& .MuiTextField-root': { m: 1, width: '25ch' }, // Стили для всех TextField
+        padding: '24px',
+        backgroundColor: '#f7f7f8',
+        borderRadius: '8px',
+      }}>
+        <TextField
+          label="Имя"
+          name="name"
+          value={racer.name}
+          onChange={handleChange}
+        />
+        <TextField
+          label="Модель автомобиля"
+          name="carModel"
+          value={racer.carModel}
+          onChange={handleChange}
+        />
+        <Button type="submit" variant="contained" sx={{ mt: 2 }}>Добавить</Button>
+      </Box>
   );
 };
 

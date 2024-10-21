@@ -23,9 +23,9 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Form handleSubmit={addRacer} inracer={{ name: "", carModel: "" }} />
-      <Table racers={racers} delRacers={delRacer} />
+    <div>
+            <Form handleSubmit={addRacer} inRacer={{ name: "", carModel: ""}} />
+            <Table racers={racers} delRacer={delRacer} />
     </div>
   );
 }
