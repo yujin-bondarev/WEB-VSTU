@@ -1,10 +1,10 @@
+// App.js
 import "./App.css";
 import RacersAPI from "./api/service";
-import Table from "./components/racers/Table.js";
-import Form from "./components/racers/Form.js";
-import Login from "./components/login/Login.js";
 import { useState } from "react";
-import { Box, Typography } from '@mui/material';
+import { Box, AppBar, Toolbar, Button } from '@mui/material';
+import { BrowserRouter as Router } from 'react-router-dom';
+import AppRoutes from './pages/components/router/Router.js'; // Импортируем новый компонент
 
 const initialracers = RacersAPI.all();
 
@@ -25,20 +25,27 @@ function App() {
     }
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
   return (
-    <Box sx={{ padding: 4 }}>
-      {!isLoggedIn ? (
-        <Login handleLogin={setIsLoggedIn} />
-      ) : (
-        <>
-          <Typography variant="h4" sx={{ marginBottom: 2 }}>
-            Гонщики
-          </Typography>
-          <Form handleSubmit={addRacer} inRacer={{ name: "", carModel: ""}} />
-          <Table racers={racers} delRacer={delRacer} />
-        </>
-      )}
-    </Box>
+    <Router>
+      <Box sx={{ padding: 4 }}>
+        <AppBar position="static">
+          <Toolbar>
+            {isLoggedIn && <Button color="inherit" onClick={handleLogout}>Logout</Button>}
+          </Toolbar>
+        </AppBar>
+        <AppRoutes 
+          isLoggedIn={isLoggedIn} 
+          handleLogin={setIsLoggedIn} 
+          racers={racers} 
+          addRacer={addRacer} 
+          delRacer={delRacer} 
+        />
+      </Box>
+    </Router>
   );
 }
 
