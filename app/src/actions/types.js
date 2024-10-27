@@ -1,0 +1,5 @@
+export const ADD_RACER = 'ADD_RACER';
+export const REMOVE_RACER = 'REMOVE_RACER';
+export const UPDATE_RACER = 'UPDATE_RACER';
+export const SET_AUTHENTICATED_USER = 'SET_AUTHENTICATED_USER';
+export const LOGOUT_USER = 'LOGOUT_USER'

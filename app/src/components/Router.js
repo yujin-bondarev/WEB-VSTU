@@ -1,8 +1,8 @@
 // components/Routes.js
 import { Route, Routes, Navigate } from 'react-router-dom';
-import Login from '../login/Login.js';
-import Table from '../racers/Table.js';
-import Form from '../racers/Form.js';
+import Login from './Login.js';
+import Table from './Table.js';
+import Form from './Form.js';
 import { Typography } from '@mui/material';
 
 const AppRoutes = ({ isLoggedIn, handleLogin, racers, addRacer, delRacer }) => {
