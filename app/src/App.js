@@ -1,32 +1,20 @@
 // App.js
 import "./App.css";
 import RacersAPI from "./api/service";
-import { useState, useEffect } from "react"; // Add useEffect here
-import { Box, AppBar, Toolbar, Button } from '@mui/material';
+import { useState } from "react";
+import { Box } from '@mui/material';
 import { BrowserRouter as Router } from 'react-router-dom';
-import AppRoutes from './components/Router.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { setAuthenticatedUser , logoutUser  } from './actions/AuthAction';
+import AppRoutes from './components/router/Router.js';
+import RacersTable from './components/pages/racers/RacersTable';
+import Form from './components/pages/racers/AddRacerForm.js';
+import NavBar from './components/content/NavBar';
 
 const initialracers = RacersAPI.all();
 
 function App() {
   const [racers, setRacers] = useState(initialracers);
-  //const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.authState.isAuthenticated);
-
-  useEffect(() => {
-    const authStatus = localStorage.getItem('auth') === 'true';
-    if (authStatus) {
-      dispatch(setAuthenticatedUser ({ username: 'admin', email: 'user@example.com' }));
-    }
-  }, [dispatch]);
-
-  const handleLogout = () => {
-    localStorage.setItem('auth', 'false');
-    dispatch(logoutUser ());
-  };
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showTable, setShowTable] = useState(false);
 
   const delRacer = (id) => {
     setRacers(prevRacers => prevRacers.filter(racer => racer.id !== id));
@@ -38,22 +26,41 @@ function App() {
       setRacers([...racers, newracer]);
     }
   };
-  
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
+  const toggleShowTable = () => {
+    setShowTable(!showTable);
+  };
+
   return (
     <Router>
       <Box sx={{ padding: 4 }}>
-        <AppBar position="static">
-          <Toolbar>
-            {isAuthenticated && <Button color="inherit" onClick={handleLogout}>Logout</Button>}
-          </Toolbar>
-        </AppBar>
-        <AppRoutes
-          isAuthenticated={isAuthenticated}
-          //handleLogin={setIsLoggedIn}
-          racers={racers}
-          addRacer={addRacer}
-          delRacer={delRacer}
+        <NavBar 
+          isLoggedIn={isLoggedIn} 
+          handleLogout={handleLogout} 
+          toggleShowTable={toggleShowTable} 
+          showTable={showTable} 
         />
+        
+        {isLoggedIn && (<Form addRacer={addRacer} />)}
+
+        {showTable ? (
+          <RacersTable 
+            racers={racers} 
+            delRacer={delRacer} 
+          />
+        ) : (
+          <AppRoutes
+            isLoggedIn={isLoggedIn}
+            handleLogin={setIsLoggedIn}
+            racers={racers}
+            addRacer={addRacer}
+            delRacer={delRacer}
+          />
+        )}
       </Box>
     </Router>
   );

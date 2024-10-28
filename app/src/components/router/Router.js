@@ -1,8 +1,7 @@
 // components/Routes.js
 import { Route, Routes, Navigate } from 'react-router-dom';
-import Login from './Login.js';
-import Table from './Table.js';
-import Form from './Form.js';
+import Login from '../pages/login/Login.js';
+import Table from '../pages/racers/RacersCards.js';
 import { Typography } from '@mui/material';
 
 const AppRoutes = ({ isLoggedIn, handleLogin, racers, addRacer, delRacer }) => {
@@ -14,7 +13,6 @@ const AppRoutes = ({ isLoggedIn, handleLogin, racers, addRacer, delRacer }) => {
           <Typography variant="h4" sx={{ marginBottom: 2 }}>
             Гонщики
           </Typography>
-          <Form handleSubmit={addRacer} inRacer={{ name: "", carModel: "" }} />
           <Table racers={racers} delRacer={delRacer} />
         </>
       ) : (
