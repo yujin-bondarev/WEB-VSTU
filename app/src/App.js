@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
-import theme from './components/themes/mainTheme'; // Импортируйте вашу тему
+import theme from './components/themes/mainTheme'; 
 import AppRouter from './components/router/AppRouter';
 import Navbar from './components/context/NavBar';
 import { useSelector, useDispatch } from 'react-redux';

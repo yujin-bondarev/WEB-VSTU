@@ -30,7 +30,7 @@ const RacersCards = () => {
           flexWrap: 'wrap',
           gap: 2,
           mt: 4,
-          justifyContent: 'flex-start' // Выравнивание карточек по левому краю
+          justifyContent: 'flex-start' 
         }}>
           {racers.map((racer) => (
             <Card

@@ -4,14 +4,14 @@ const mainTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#FF4D4D', // Приятный красный цвет для navbar
+      main: '#FF4D4D', 
     },
     secondary: {
-      main: '#4DD0E1', // Голубой цвет для кнопок удаления
+      main: '#4DD0E1',
     },
     background: {
-      default: '#424242', // Серый фон
-      paper: '#303030', // Чуть темнее серый для компонентов
+      default: '#424242',
+      paper: '#303030', 
     },
     text: {
       primary: '#FFFFFF',
@@ -22,14 +22,14 @@ const mainTheme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#FF4D4D', // Красный цвет для AppBar (navbar)
+          backgroundColor: '#FF4D4D',
         },
       },
     },
     MuiCssBaseline: {
         styleOverrides: {
             root: ({ theme }) =>( {
-                backgroundColor: theme.palette.background.default, // Красный цвет для AppBar (navbar)
+                backgroundColor: theme.palette.background.default, 
               }),
         },
     },
@@ -39,9 +39,9 @@ const mainTheme = createTheme({
           borderRadius: 8,
         },
         containedSecondary: {
-          backgroundColor: '#4DD0E1', // Голубой цвет для кнопок удаления
+          backgroundColor: '#4DD0E1', 
           '&:hover': {
-            backgroundColor: '#26C6DA', // Немного темнее при наведении
+            backgroundColor: '#26C6DA', 
           },
         },
       },
@@ -50,8 +50,8 @@ const mainTheme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiInputBase-input': {
-            backgroundColor: '#000000', // Черный фон для полей ввода
-            color: '#FFFFFF', // Белый текст
+            backgroundColor: '#000000', 
+            color: '#FFFFFF', 
             borderRadius: 4,
             padding: '10px',
           },
@@ -72,7 +72,7 @@ const mainTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: '#303030', // Темно-серый фон для карточек
+          backgroundColor: '#303030', 
           borderRadius: 12,
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         },
