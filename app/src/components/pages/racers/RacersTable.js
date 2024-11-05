@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, TableBody, TableCell, Button, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, Button, TableHead, TableRow, Paper, CssBaseline } from '@mui/material';
 import AddRacerForm from './AddRacerForm';
 
 const RacersTable = () => {
@@ -23,6 +23,7 @@ const RacersTable = () => {
 
   return (
     <div>
+      <CssBaseline>
       <AddRacerForm onAdd={handleAdd} />
       <Paper sx={{ p: 3, maxWidth: 800, mx: 'auto', mt: 2 }}>
         <Table>
@@ -46,6 +47,7 @@ const RacersTable = () => {
           </TableBody>
         </Table>
       </Paper>
+      </CssBaseline>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../redux/reducers/authReducer';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { TextField, Button, Box, Typography, CssBaseline } from '@mui/material';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -20,6 +20,7 @@ const Login = () => {
 
 
   return (
+    <CssBaseline>
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 4 }}>
       <Typography variant="h4" sx={{ marginBottom: 2 }}>
         Вход
@@ -43,6 +44,7 @@ const Login = () => {
         </Button>
       </form>
     </Box>
+    </CssBaseline>
   );
 };
 

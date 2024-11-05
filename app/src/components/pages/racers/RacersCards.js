@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Card, CardContent, Typography, Button, Box, Container } from '@mui/material';
+import { Card, CardContent, Typography, Button, Box, Container, CssBaseline } from '@mui/material';
 import AddRacerForm from './AddRacerForm';
 
 const RacersCards = () => {
@@ -12,8 +12,8 @@ const RacersCards = () => {
   };
 
   const handleAdd = (newRacer) => {
-    dispatch({ 
-      type: 'ADD_RACER', 
+    dispatch({
+      type: 'ADD_RACER',
       payload: {
         id: Date.now(),
         ...newRacer
@@ -22,55 +22,57 @@ const RacersCards = () => {
   };
 
   return (
-    <Container sx={{ py: 4 }}>
-      <AddRacerForm onAdd={handleAdd} />
-      <Box sx={{ 
-        display: 'flex', 
-        flexWrap: 'wrap', 
-        gap: 2,
-        mt: 4,
-        justifyContent: 'flex-start' // Выравнивание карточек по левому краю
-      }}>
-        {racers.map((racer) => (
-          <Card 
-            key={racer.id} 
-            sx={{ 
-              width: 280, 
-              minWidth: 280, 
-              maxWidth: 280,
-              m: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between'
-            }}
-          >
-            <CardContent sx={{ 
-              flex: '1 0 auto',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between'
-            }}>
-              <div>
-                <Typography variant="h5" component="div" gutterBottom>
-                  {racer.name}
-                </Typography>
-                <Typography color="text.secondary">
-                  Car Model: {racer.carModel}
-                </Typography>
-              </div>
-              <Button 
-                onClick={() => handleDelete(racer.id)}
-                color="error"
-                variant="contained"
-                sx={{ mt: 2 }}
-              >
-                Delete
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-      </Box>
-    </Container>
+    <CssBaseline>
+      <Container sx={{ py: 4 }}>
+        <AddRacerForm onAdd={handleAdd} />
+        <Box sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 2,
+          mt: 4,
+          justifyContent: 'flex-start' // Выравнивание карточек по левому краю
+        }}>
+          {racers.map((racer) => (
+            <Card
+              key={racer.id}
+              sx={{
+                width: 280,
+                minWidth: 280,
+                maxWidth: 280,
+                m: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}
+            >
+              <CardContent sx={{
+                flex: '1 0 auto',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}>
+                <div>
+                  <Typography variant="h5" component="div" gutterBottom>
+                    {racer.name}
+                  </Typography>
+                  <Typography color="text.secondary">
+                    Car Model: {racer.carModel}
+                  </Typography>
+                </div>
+                <Button
+                  onClick={() => handleDelete(racer.id)}
+                  color="error"
+                  variant="contained"
+                  sx={{ mt: 2 }}
+                >
+                  Delete
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+      </Container>
+    </CssBaseline>
   );
 };
 
