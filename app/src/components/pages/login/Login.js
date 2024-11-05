@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../redux/reducers/authReducer';
 import { TextField, Button, Box, Typography } from '@mui/material';
 
-const Login = ({ handleLogin }) => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Здесь можно добавить проверку логина
     if (username === 'admin' && password === '1111') {
-      handleLogin(true); // Успешный логин
+      dispatch(login());
     } else {
       alert('Неверный логин или пароль');
     }
   };
+  
+
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 4 }}>
