@@ -7,11 +7,13 @@ const RacersCards = () => {
   const racers = useSelector(state => state.racers);
   const dispatch = useDispatch();
 
-  const handleDelete = (id) => {
+  console.log("RacersCards racers:", racers); // Отладочное сообщение
+
+  const deleteRacer = (id) => {
     dispatch({ type: 'REMOVE_RACER', payload: id });
   };
 
-  const handleAdd = (newRacer) => {
+  const addRacer = (newRacer) => {
     dispatch({
       type: 'ADD_RACER',
       payload: {
@@ -24,7 +26,7 @@ const RacersCards = () => {
   return (
     <CssBaseline>
       <Container sx={{ py: 4 }}>
-        <AddRacerForm onAdd={handleAdd} />
+        <AddRacerForm onAdd={addRacer} />
         <Box sx={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -32,44 +34,50 @@ const RacersCards = () => {
           mt: 4,
           justifyContent: 'flex-start' 
         }}>
-          {racers.map((racer) => (
-            <Card
-              key={racer.id}
-              sx={{
-                width: 280,
-                minWidth: 280,
-                maxWidth: 280,
-                m: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
-              }}
-            >
-              <CardContent sx={{
-                flex: '1 0 auto',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
-              }}>
-                <div>
-                  <Typography variant="h5" component="div" gutterBottom>
-                    {racer.name}
-                  </Typography>
-                  <Typography color="text.secondary">
-                    Car Model: {racer.carModel}
-                  </Typography>
-                </div>
-                <Button
-                  onClick={() => handleDelete(racer.id)}
-                  color="error"
-                  variant="contained"
-                  sx={{ mt: 2 }}
-                >
-                  Delete
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+          {racers.length === 0 ? (
+            <Typography variant="h6" sx={{ textAlign: 'center', width: '100%', marginTop: 4 }}>
+              Клиенты отсутствуют
+            </Typography>
+          ) : (
+            racers.map((racer) => (
+              <Card
+                key={racer.id}
+                sx={{
+                  width: 280,
+                  minWidth: 280,
+                  maxWidth: 280,
+                  m: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <CardContent sx={{
+                  flex: '1 0 auto',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}>
+                  <div>
+                    <Typography variant="h5" component="div" gutterBottom>
+                      {racer.name}
+                    </Typography>
+                    <Typography color="text.secondary">
+                      Car Model: {racer.carModel}
+                    </Typography>
+                  </div>
+                  <Button
+                    onClick={() => deleteRacer(racer.id)}
+                    color="error"
+                    variant="contained"
+                    sx={{ mt: 2 }}
+                  >
+                    Delete
+                  </Button>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </Box>
       </Container>
     </CssBaseline>
