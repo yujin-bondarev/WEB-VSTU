@@ -10,6 +10,9 @@ const initialState = [
 
 const racersReducer = createReducer(initialState, (builder) => {
   builder
+    .addCase('ADD_MANY_RACERS', (state, action) => {
+      state.push(...action.payload); 
+    })
     .addCase('ADD_RACER', (state, action) => {
       state.push(action.payload);
     })
@@ -19,3 +22,6 @@ const racersReducer = createReducer(initialState, (builder) => {
 });
 
 export default racersReducer;
+export const addRacerAction = (payload) => ({type:  'ADD_RACER', payload});
+export const addManyRacersAction = (payload) => ({type:  'ADD_MANY_RACERS', payload});
+export const removeRacerAction = (payload) => ({type:  'REMOVE_RACER', payload});
