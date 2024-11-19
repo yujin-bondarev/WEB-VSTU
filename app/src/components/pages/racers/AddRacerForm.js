@@ -1,46 +1,52 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Paper } from '@mui/material';
+import { TextField, Button, Paper } from '@mui/material';
+import axios from 'axios';
 
 const AddRacerForm = ({ onAdd }) => {
   const [name, setName] = useState('');
   const [carModel, setCarModel] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (name.trim() && carModel.trim()) {
-      onAdd({ name, carModel });
-      setName('');
-      setCarModel('');
+      const newRacer = { name, carModel };
+      const token = localStorage.getItem('token'); // Получаем токен
+      try {
+        const response = await axios.post('http://localhost:8080/racers', newRacer, {
+          headers: {
+            Authorization: `Bearer ${token}` // Добавляем токен в заголовок
+          }
+        });
+        onAdd(response.data); // Используем данные из ответа сервера, который включает id
+        setName('');
+        setCarModel('');
+      } catch (error) {
+        console.error('Ошибка при добавлении гонщика:', error);
+      }
     }
   };
 
   return (
-    <Paper sx={{ p: 3, maxWidth: 400, mx: 'auto' }}>
-      <Box 
-        component="form" 
-        onSubmit={handleSubmit} 
-        sx={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: 2 
-        }}
-      >
+    <Paper sx={{ p: 3, maxWidth: 400, mx: 'auto', mt: 2 }}>
+      <form onSubmit={handleSubmit}>
         <TextField
-          label="Racer Name"
+          label="Имя гонщика"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          required
+          fullWidth
+          sx={{ marginBottom: 2 }}
         />
         <TextField
-          label="Car Model"
+          label="Модель автомобиля"
           value={carModel}
           onChange={(e) => setCarModel(e.target.value)}
-          required
+          fullWidth
+          sx={{ marginBottom: 2 }}
         />
-        <Button type="submit" variant="contained" color="primary">
-          Add Racer
+        <Button variant="contained" type="submit" fullWidth>
+          Добавить гонщика
         </Button>
-      </Box>
+      </form>
     </Paper>
   );
 };
