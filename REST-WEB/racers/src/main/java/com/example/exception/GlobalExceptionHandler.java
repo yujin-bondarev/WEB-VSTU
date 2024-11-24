@@ -27,6 +27,4 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleRacerNotFound(RacerNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
-
-    // Добавьте другие обработчики исключений по мере необходимости
 }
