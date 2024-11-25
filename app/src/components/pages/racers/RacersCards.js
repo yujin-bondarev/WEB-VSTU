@@ -8,9 +8,13 @@ const RacersCards = () => {
   const racers = useSelector(state => state.racers);
   const dispatch = useDispatch();
 
-  const handleDeleteRacer = (id) => {
+  const handleDeleteRacer = async (id) => {
     const token = localStorage.getItem('token');
-    dispatch(deleteRacer({ id, token })); // Удаляем гонщика
+    try {
+      await dispatch(deleteRacer({ id, token })).unwrap();
+    } catch (error) {
+      alert(error); // Показываем сообщение об ошибке
+    }
   };
 
   return (

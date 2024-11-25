@@ -13,10 +13,14 @@ const RacersTable = () => {
     dispatch(fetchRacers(token)); // Загружаем гонщиков
   }, [dispatch]);
 
-  const handleDeleteRacer = (id) => {
-    const token = localStorage.getItem('token');
-    dispatch(deleteRacer({ id, token })); // Удаляем гонщика
-  };
+const handleDeleteRacer = async (id) => {
+  const token = localStorage.getItem('token');
+  try {
+    await dispatch(deleteRacer({ id, token })).unwrap();
+  } catch (error) {
+    alert(error); // Показываем сообщение об ошибке
+  }
+};
 
   return (
     <div>

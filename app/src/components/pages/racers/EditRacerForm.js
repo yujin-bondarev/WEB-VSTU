@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { TextField, Button, Box, Typography } from '@mui/material';
-import { addRacer } from '../../../redux/racersSlice'; 
+import { editRacer } from '../../../redux/racersSlice'; 
 
-const AddRacerForm = () => {
-  const [name, setName] = useState('');
-  const [carModel, setCarModel] = useState('');
+const EditRacerForm = ({ racer, onClose }) => {
+  const [name, setName] = useState(racer.name);
+  const [carModel, setCarModel] = useState(racer.carModel);
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (name && carModel) {
       try {
-        await dispatch(addRacer({ name, carModel })).unwrap();
-        setName('');
-        setCarModel('');
+        await dispatch(editRacer({ id: racer.id, name, carModel })).unwrap();
+        onClose(); // Закрываем форму после успешного редактирования
       } catch (error) {
         alert(error); // Показываем сообщение об ошибке
       }
@@ -23,7 +22,7 @@ const AddRacerForm = () => {
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mb: 2 }}>
-      <Typography variant="h6">Добавить гонщика</Typography>
+      <Typography variant="h6">Редактировать гонщика</Typography>
       <TextField
         label="Имя"
         variant="outlined"
@@ -41,10 +40,13 @@ const AddRacerForm = () => {
         sx={{ mr: 1 }}
       />
       <Button type="submit" variant="contained" color="primary">
-        Добавить
+        Сохранить
+      </Button>
+      <Button onClick={onClose} variant="outlined" color="secondary" sx={{ ml: 1 }}>
+        Отменить
       </Button>
     </Box>
   );
 };
 
-export default AddRacerForm;
+export default EditRacerForm;

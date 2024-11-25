@@ -13,26 +13,38 @@ export const fetchRacers = createAsyncThunk('racers/fetchRacers', async (token) 
 });
 
 // Асинхронный thunk для удаления гонщика
-export const deleteRacer = createAsyncThunk('racers/deleteRacer', async ({ id, token }) => {
-  await axios.delete(`http://localhost:8080/racers/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return id; 
+export const deleteRacer = createAsyncThunk('racers/deleteRacer', async ({ id, token }, { rejectWithValue }) => {
+  try {
+    await axios.delete(`http://localhost:8080/racers/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return id;
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      return rejectWithValue('Ошибка 403: У вас нет прав для удаления гонщика.');
+    }
+    return rejectWithValue('Ошибка при удалении гонщика.');
+  }
 });
 
 // Асинхронный thunk для добавления гонщика
-export const addRacer = createAsyncThunk('racers/addRacer', async (newRacer) => {
-    console.log("Отправка данных:", newRacer); // Для отладки
+export const addRacer = createAsyncThunk('racers/addRacer', async (newRacer, { rejectWithValue }) => {
   const token = localStorage.getItem('token');
-  const response = await axios.post('http://localhost:8080/racers', newRacer, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  console.log("Ответ от сервера:", response.data); // Проверка ответа
-  return response.data;
+  try {
+    const response = await axios.post('http://localhost:8080/racers', newRacer, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      return rejectWithValue('Ошибка 403: У вас нет прав для добавления гонщика.');
+    }
+    return rejectWithValue('Ошибка при добавлении гонщика.');
+  }
 });
 
 const racersSlice = createSlice({
