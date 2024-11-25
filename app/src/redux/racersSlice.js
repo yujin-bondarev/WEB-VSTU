@@ -47,6 +47,16 @@ export const addRacer = createAsyncThunk('racers/addRacer', async (newRacer, { r
   }
 });
 
+export const editRacer = createAsyncThunk('racers/editRacer', async ({ id, name, carModel }) => {
+  const token = localStorage.getItem('token');
+  const response = await axios.put(`http://localhost:8080/racers/${id}`, { name, carModel }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+});
+
 const racersSlice = createSlice({
   name: 'racers',
   initialState: [],
@@ -55,14 +65,20 @@ const racersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchRacers.fulfilled, (state, action) => {
-        return action.payload; 
+        return action.payload;
       })
       .addCase(deleteRacer.fulfilled, (state, action) => {
-        return state.filter(racer => racer.id !== action.payload); 
+        return state.filter(racer => racer.id !== action.payload);
       })
       .addCase(addRacer.fulfilled, (state, action) => {
-        state.push(action.payload); 
-    });
+        state.push(action.payload);
+      })
+      .addCase(editRacer.fulfilled, (state, action) => {
+        const index = state.findIndex(racer => racer.id === action.payload.id);
+        if (index !== -1) {
+          state[index] = action.payload; // Обновляем гонщика в состоянии
+        }
+      });
   },
 });
 

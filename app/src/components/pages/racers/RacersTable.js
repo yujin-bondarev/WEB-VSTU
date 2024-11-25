@@ -1,26 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, TableBody, TableCell, Button, TableHead, TableRow, Paper, CssBaseline, Typography } from '@mui/material';
 import AddRacerForm from './AddRacerForm';
+import EditRacerForm from './EditRacerForm';
 import { fetchRacers, deleteRacer } from '../../../redux/racersSlice';
 
 const RacersTable = () => {
   const racers = useSelector(state => state.racers);
   const dispatch = useDispatch();
+  const [editingRacer, setEditingRacer] = useState(null); // Состояние для редактирования гонщика
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     dispatch(fetchRacers(token)); // Загружаем гонщиков
   }, [dispatch]);
 
-const handleDeleteRacer = async (id) => {
-  const token = localStorage.getItem('token');
-  try {
-    await dispatch(deleteRacer({ id, token })).unwrap();
-  } catch (error) {
-    alert(error); // Показываем сообщение об ошибке
-  }
-};
+  const handleDeleteRacer = async (id) => {
+    const token = localStorage.getItem('token');
+    try {
+      await dispatch(deleteRacer({ id, token })).unwrap();
+    } catch (error) {
+      alert(error); // Показываем сообщение об ошибке
+    }
+  };
+
+  const handleEditRacer = (racer) => {
+    setEditingRacer(racer); // Устанавливаем гонщика для редактирования
+  };
+
+  const closeEditForm = () => {
+    setEditingRacer(null); // Закрываем форму редактирования
+  };
+
 
   return (
     <div>
@@ -48,6 +59,9 @@ const handleDeleteRacer = async (id) => {
                     <TableCell>{racer.name}</TableCell>
                     <TableCell>{racer.carModel}</TableCell>
                     <TableCell>
+                      <Button variant="outlined" onClick={() => handleEditRacer(racer)}>
+                        Редактировать
+                      </Button>
                       <Button onClick={() => handleDeleteRacer(racer.id)}>Удалить</Button>
                     </TableCell>
                   </TableRow>
@@ -56,6 +70,9 @@ const handleDeleteRacer = async (id) => {
             </TableBody>
           </Table>
         </Paper>
+        {editingRacer && (
+          <EditRacerForm racer={editingRacer} onClose={closeEditForm} />
+        )}
       </CssBaseline>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import { editRacer } from '../../../redux/racersSlice'; 
@@ -13,9 +13,9 @@ const EditRacerForm = ({ racer, onClose }) => {
     if (name && carModel) {
       try {
         await dispatch(editRacer({ id: racer.id, name, carModel })).unwrap();
-        onClose(); // Закрываем форму после успешного редактирования
+        onClose(); 
       } catch (error) {
-        alert(error); // Показываем сообщение об ошибке
+        alert(error); 
       }
     }
   };
