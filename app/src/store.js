@@ -1,15 +1,15 @@
-import { thunk } from 'redux-thunk';
 import { configureStore } from '@reduxjs/toolkit';
-import racersReducer from './redux/reducers/racersReducer';
+import racersReducer from './redux/racersSlice';
 import authReducer from './redux/reducers/authReducer';
+import { thunk } from 'redux-thunk'; 
 
 const store = configureStore({
   reducer: {
     racers: racersReducer,
     auth: authReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk), // Добавляем thunk в middleware
-  devTools: process.env.NODE_ENV !== 'production', 
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
-export default store; 
+export default store;

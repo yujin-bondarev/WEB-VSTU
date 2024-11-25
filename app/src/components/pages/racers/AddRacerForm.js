@@ -1,53 +1,48 @@
 import React, { useState } from 'react';
-import { TextField, Button, Paper } from '@mui/material';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { TextField, Button, Box, Typography } from '@mui/material';
+import { addRacer } from '../../../redux/racersSlice'; 
 
-const AddRacerForm = ({ onAdd }) => {
+const AddRacerForm = () => {
   const [name, setName] = useState('');
   const [carModel, setCarModel] = useState('');
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (name.trim() && carModel.trim()) {
-      const newRacer = { name, carModel };
-      const token = localStorage.getItem('token'); // Получаем токен
-      try {
-        const response = await axios.post('http://localhost:8080/racers', newRacer, {
-          headers: {
-            Authorization: `Bearer ${token}` // Добавляем токен в заголовок
-          }
-        });
-        onAdd(response.data); // Используем данные из ответа сервера, который включает id
+    if (name && carModel) {
+        await dispatch(addRacer({ name, carModel })).unwrap();
         setName('');
         setCarModel('');
-      } catch (error) {
-        console.error('Ошибка при добавлении гонщика:', error);
-      }
+    } else {
+        console.log("Поля не заполнены!"); // Для отладки
     }
-  };
+    console.log({ name, carModel }); // Для отладки
+};
 
   return (
-    <Paper sx={{ p: 3, maxWidth: 400, mx: 'auto', mt: 2 }}>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Имя гонщика"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          fullWidth
-          sx={{ marginBottom: 2 }}
-        />
-        <TextField
-          label="Модель автомобиля"
-          value={carModel}
-          onChange={(e) => setCarModel(e.target.value)}
-          fullWidth
-          sx={{ marginBottom: 2 }}
-        />
-        <Button variant="contained" type="submit" fullWidth>
-          Добавить гонщика
-        </Button>
-      </form>
-    </Paper>
+    <Box component="form" onSubmit={handleSubmit} sx={{ mb: 2 }}>
+      <Typography variant="h6">Добавить гонщика</Typography>
+      <TextField
+        label="Имя"
+        variant="outlined"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+        sx={{ mr: 1 }}
+      />
+      <TextField
+        label="Модель автомобиля"
+        variant="outlined"
+        value={carModel}
+        onChange={(e) => setCarModel(e.target.value)}
+        required
+        sx={{ mr: 1 }}
+      />
+      <Button type="submit" variant="contained" color="primary">
+        Добавить
+      </Button>
+    </Box>
   );
 };
 
