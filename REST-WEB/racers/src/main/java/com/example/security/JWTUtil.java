@@ -23,7 +23,7 @@ public class JWTUtil {
     @Value("${jwt.sessionTime}")
     private long sessionTime;
 
-    // Генерация токена (кладем в него имя пользователя и authorities)
+    // Генерация токена (пихает в него имя пользователя и authorities)
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         String commaSeparatedListOfAuthorities = userDetails.getAuthorities().stream()
@@ -60,7 +60,7 @@ public class JWTUtil {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    // Проверка на истечение токена
+    // Проверка на истечение срока токена
     private boolean isTokenExpired(String token) {
         try {
             return extractExpiration(token).before(new Date());

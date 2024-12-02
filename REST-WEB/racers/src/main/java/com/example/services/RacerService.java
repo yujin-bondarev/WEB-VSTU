@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public interface RacerService {
     List<Racer> getAllRacers();
-
-    void addRacer(Racer racer);
+    
+    Racer addRacer(Racer racer);
 
     void updateRacer(Long id, Racer updatedRacer);
 

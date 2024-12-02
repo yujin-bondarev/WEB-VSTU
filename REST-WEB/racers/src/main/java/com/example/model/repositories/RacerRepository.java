@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface RacerRepository extends JpaRepository<Racer, Long> {
     Racer findByName(String name);
 
-    Racer findByCarModel(String carModel); // Поиск по carModel
+    Racer findByCarModel(String carModel); 
 }

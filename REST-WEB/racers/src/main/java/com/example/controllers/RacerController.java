@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.exception.RacerNotFoundException;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -33,17 +34,20 @@ public class RacerController {
     }
 
     @PostMapping
-    public void addRacer(@Valid @RequestBody Racer racer) {
-        racerService.addRacer(racer);
+    public ResponseEntity<Racer> addRacer(@Valid @RequestBody Racer racer) {
+        Racer createdRacer = racerService.addRacer(racer);
+        return ResponseEntity.created(URI.create("/racers/" + createdRacer.getId())).body(createdRacer);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateRacer(@PathVariable Long id, @Valid @RequestBody Racer updatedRacer) {
+    public ResponseEntity<Racer> updateRacer(@PathVariable Long id, @Valid @RequestBody Racer updatedRacer) {
         if (!racerService.getRacerById(id).isPresent()) {
             throw new RacerNotFoundException("Racer with id " + id + " not found");
         }
         racerService.updateRacer(id, updatedRacer);
-        return ResponseEntity.ok().build();
+
+        Racer racer = racerService.getRacerById(id).get();
+        return ResponseEntity.ok(racer);
     }
 
     @DeleteMapping("/{id}")
@@ -57,8 +61,7 @@ public class RacerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Racer> getRacerById(@PathVariable Long id) {
-        return racerService.getRacerById(id)
-                .map(ResponseEntity::ok)
+        return racerService.getRacerById(id).map(ResponseEntity::ok)
                 .orElseThrow(() -> new RacerNotFoundException("Racer with id " + id + " not found"));
     }
 }

@@ -47,14 +47,22 @@ export const addRacer = createAsyncThunk('racers/addRacer', async (newRacer, { r
   }
 });
 
-export const editRacer = createAsyncThunk('racers/editRacer', async ({ id, name, carModel }) => {
+// Асинхронный thunk для редактирования гонщика
+export const editRacer = createAsyncThunk('racers/editRacer', async ({ id, name, carModel }, { rejectWithValue }) => {
   const token = localStorage.getItem('token');
-  const response = await axios.put(`http://localhost:8080/racers/${id}`, { name, carModel }, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+  try {
+    const response = await axios.put(`http://localhost:8080/racers/${id}`, { name, carModel }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      return rejectWithValue('Ошибка 403: У вас нет прав для редактирования гонщика.');
+    }
+    return rejectWithValue('Ошибка при редактировании гонщика.');
+  }
 });
 
 const racersSlice = createSlice({

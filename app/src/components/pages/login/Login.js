@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TextField, Button, Box, Typography, CssBaseline } from '@mui/material';
 import axios from 'axios';
-import { login } from '../../../redux/reducers/authReducer'; // Импортируйте ваш action для изменения состояния
+import { login } from '../../../redux/reducers/authReducer'; 
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -18,9 +18,9 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        // Здесь вы можете сохранить токен, если он возвращается
+        
         localStorage.setItem('token', response.data.jwtToken);
-        dispatch(login()); // Обновите состояние аутентификации
+        dispatch(login()); 
       }
     } catch (error) {
       alert('Неверный логин или пароль');

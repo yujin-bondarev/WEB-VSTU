@@ -8,11 +8,11 @@ import { fetchRacers, deleteRacer } from '../../../redux/racersSlice';
 const RacersTable = () => {
   const racers = useSelector(state => state.racers);
   const dispatch = useDispatch();
-  const [editingRacer, setEditingRacer] = useState(null); // Состояние для редактирования гонщика
+  const [editingRacer, setEditingRacer] = useState(null); 
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    dispatch(fetchRacers(token)); // Загружаем гонщиков
+    dispatch(fetchRacers(token)); 
   }, [dispatch]);
 
   const handleDeleteRacer = async (id) => {
@@ -20,16 +20,16 @@ const RacersTable = () => {
     try {
       await dispatch(deleteRacer({ id, token })).unwrap();
     } catch (error) {
-      alert(error); // Показываем сообщение об ошибке
+      alert(error);
     }
   };
 
   const handleEditRacer = (racer) => {
-    setEditingRacer(racer); // Устанавливаем гонщика для редактирования
+    setEditingRacer(racer); 
   };
 
   const closeEditForm = () => {
-    setEditingRacer(null); // Закрываем форму редактирования
+    setEditingRacer(null); 
   };
 
 

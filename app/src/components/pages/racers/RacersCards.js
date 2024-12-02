@@ -1,26 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, CardContent, Typography, Button, Box, Container, CssBaseline } from '@mui/material';
 import AddRacerForm from './AddRacerForm';
+import EditRacerForm from './EditRacerForm';
 import { deleteRacer } from '../../../redux/racersSlice'; 
 
 const RacersCards = () => {
   const racers = useSelector(state => state.racers);
   const dispatch = useDispatch();
+  const [editingRacer, setEditingRacer] = useState(null); 
 
   const handleDeleteRacer = async (id) => {
     const token = localStorage.getItem('token');
     try {
       await dispatch(deleteRacer({ id, token })).unwrap();
     } catch (error) {
-      alert(error); // Показываем сообщение об ошибке
+      alert(error); 
     }
+  };
+
+  const handleEditRacer = (racer) => {
+    setEditingRacer(racer); 
+  };
+
+  const closeEditForm = () => {
+    setEditingRacer(null); 
   };
 
   return (
     <div>
       <CssBaseline>
-        <AddRacerForm />
+        <Container sx={{ py: 4}}>
+          <AddRacerForm />
+        </Container>
         <Container sx={{ py: 4 }}>
           {racers.length === 0 ? (
             <Typography variant="h6" sx={{ textAlign: 'center', width: '100%', marginTop: 4 }}>
@@ -55,21 +67,29 @@ const RacersCards = () => {
                   }}>
                     <div>
                       <Typography variant="h5" component="h2">
-                        {racer.name}
+                        Гонщик: {racer.name}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="body5" color="text.secondary">
                         Модель автомобиля: {racer.carModel}
                       </Typography>
                     </div>
                   </CardContent>
-                  <Button onClick={() => handleDeleteRacer(racer.id)} variant="contained" color="error">
-                    Удалить
-                  </Button>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
+                    <Button sx={{margin: 1}} onClick={() => handleEditRacer(racer)} variant="outlined">
+                      Редактировать
+                    </Button>
+                    <Button sx={{margin: 1}} onClick={() => handleDeleteRacer(racer.id)} variant="contained" color="error">
+                      Удалить
+                    </Button>
+                  </Box>
                 </Card>
               ))}
             </Box>
           )}
         </Container>
+        {editingRacer && (
+          <EditRacerForm racer={editingRacer} onClose={closeEditForm} />
+        )}
       </CssBaseline>
     </div>
   );

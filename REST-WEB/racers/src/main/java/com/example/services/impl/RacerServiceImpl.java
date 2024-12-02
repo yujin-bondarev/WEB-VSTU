@@ -24,8 +24,8 @@ public class RacerServiceImpl implements RacerService {
     }
 
     @Override
-    public void addRacer(Racer racer) {
-        racerRepository.save(racer);
+    public Racer addRacer(Racer racer) {
+        return racerRepository.save(racer);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class RacerServiceImpl implements RacerService {
 
     @Override
     public Optional<Racer> getRacerById(Long id) {
-        return racerRepository.findById(id); // Используем метод из RacerRepository
+        return racerRepository.findById(id);
     }
 
     @Override
