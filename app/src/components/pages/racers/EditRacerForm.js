@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TextField, Button, Box, Typography } from '@mui/material';
-import { editRacer } from '../../../redux/racersSlice'; 
+import { editRacer } from '../../../redux/racersSlice';
 
 const EditRacerForm = ({ racer, onClose }) => {
   const [name, setName] = useState(racer.name);
@@ -10,12 +10,28 @@ const EditRacerForm = ({ racer, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    //(только английские буквы)
+    const nameRegex = /^[A-Za-z]+$/;
+    //(буквы и цифры, но не только цифры)
+    const carModelRegex = /^(?=.*[A-Za-z])[A-Za-z0-9]+$/;
+
     if (name && carModel) {
+      if (!nameRegex.test(name)) {
+        alert('Имя должно состоять только из английских букв.');
+        return;
+      }
+
+      if (!carModelRegex.test(carModel)) {
+        alert('Модель автомобиля должна содержать хотя бы одну букву и может содержать цифры.');
+        return;
+      }
+
       try {
         await dispatch(editRacer({ id: racer.id, name, carModel })).unwrap();
-        onClose(); 
+        onClose();
       } catch (error) {
-        alert(error); 
+        alert(error);
       }
     }
   };
