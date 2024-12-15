@@ -6,14 +6,13 @@ import EditRacerForm from './EditRacerForm';
 import { deleteRacer } from '../../../redux/racersSlice'; 
 
 const RacersCards = () => {
-  const racers = useSelector(state => state.racers);
+  const racers = useSelector(state => state.racers.racers);
   const dispatch = useDispatch();
   const [editingRacer, setEditingRacer] = useState(null); 
 
   const handleDeleteRacer = async (id) => {
-    const token = localStorage.getItem('token');
     try {
-      await dispatch(deleteRacer({ id, token })).unwrap();
+      await dispatch(deleteRacer(id)).unwrap();
     } catch (error) {
       alert(error); 
     }
@@ -30,55 +29,31 @@ const RacersCards = () => {
   return (
     <div>
       <CssBaseline>
-        <Container sx={{ py: 4}}>
+        <Container>
           <AddRacerForm />
         </Container>
-        <Container sx={{ py: 4 }}>
+        <Container>
           {racers.length === 0 ? (
-            <Typography variant="h6" sx={{ textAlign: 'center', width: '100%', marginTop: 4 }}>
+            <Typography variant="h6" style={{ textAlign: 'center', width: '100%', marginTop: 4 }}>
               Гонщики отсутствуют
             </Typography>
           ) : (
-            <Box sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 2,
-              mt: 4,
-              justifyContent: 'flex-start' 
-            }}>
+            <Box style={{ display: 'flex', flexWrap: 'wrap', gap: 30, marginTop: 4 }}>
               {racers.map((racer) => (
-                <Card
-                  key={racer.id}
-                  sx={{
-                    width: 280,
-                    minWidth: 280,
-                    maxWidth: 280,
-                    m: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <CardContent sx={{
-                    flex: '1 0 auto',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between'
-                  }}>
-                    <div>
-                      <Typography variant="h5" component="h2">
-                        Гонщик: {racer.name}
-                      </Typography>
-                      <Typography variant="body5" color="text.secondary">
-                        Модель автомобиля: {racer.carModel}
-                      </Typography>
-                    </div>
+                <Card key={racer.id}>
+                  <CardContent>
+                    <Typography variant="h5" component="h2">
+                      Гонщик: {racer.name}
+                    </Typography>
+                    <Typography variant="body5" color="text.secondary">
+                      Модель автомобиля: {racer.carModel}
+                    </Typography>
                   </CardContent>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
-                    <Button sx={{margin: 1}} onClick={() => handleEditRacer(racer)} variant="outlined">
+                  <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Button onClick={() => handleEditRacer(racer)} variant="outlined">
                       Редактировать
                     </Button>
-                    <Button sx={{margin: 1}} onClick={() => handleDeleteRacer(racer.id)} variant="contained" color="error">
+                    <Button onClick={() => handleDeleteRacer(racer.id)} variant="contained" color="error">
                       Удалить
                     </Button>
                   </Box>

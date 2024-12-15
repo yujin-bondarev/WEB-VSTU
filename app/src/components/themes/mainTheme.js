@@ -27,16 +27,17 @@ const mainTheme = createTheme({
       },
     },
     MuiCssBaseline: {
-        styleOverrides: {
-            root: ({ theme }) =>( {
-                backgroundColor: theme.palette.background.default, 
-              }),
+      styleOverrides: {
+        root: {
+          backgroundColor: '#424242', 
         },
+      },
     },
     MuiButton: {
       styleOverrides: {
         root: {
           borderRadius: 8,
+          margin: '8px', // Пример добавления отступа
         },
         containedSecondary: {
           backgroundColor: '#4DD0E1', 
@@ -78,7 +79,36 @@ const mainTheme = createTheme({
         },
       },
     },
+    MuiBox: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+      },
+    },
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          padding: '16px',
+          display: "flex" ,
+          justifyContent: "center" ,
+          alignItems: "center" ,
+          flexDirection: "column",
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        h6: {
+          marginBottom: '16px', // Пример добавления отступа для заголовков
+        },
+      },
+    },
   },
+  
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
@@ -93,6 +123,8 @@ const mainTheme = createTheme({
       fontSize: '1rem',
     },
   },
+
+  
 });
 
 export default mainTheme;

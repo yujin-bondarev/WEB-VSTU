@@ -29,8 +29,8 @@ const Login = () => {
 
   return (
     <CssBaseline>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 4 }}>
-        <Typography variant="h4" sx={{ marginBottom: 2 }}>
+      <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 32 }}>
+        <Typography variant="h4" style={{ marginBottom: 16 }}>
           Вход
         </Typography>
         <form onSubmit={handleSubmit}>
@@ -38,14 +38,12 @@ const Login = () => {
             label="Логин"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            sx={{ marginBottom: 2 }}
           />
           <TextField
             label="Пароль"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            sx={{ marginBottom: 2 }}
           />
           <Button variant="contained" type="submit">
             Войти

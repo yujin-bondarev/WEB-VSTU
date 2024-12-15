@@ -37,7 +37,7 @@ const EditRacerForm = ({ racer, onClose }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mb: 2 }}>
+    <Box component="form" onSubmit={handleSubmit}>
       <Typography variant="h6">Редактировать гонщика</Typography>
       <TextField
         label="Имя"
@@ -45,7 +45,6 @@ const EditRacerForm = ({ racer, onClose }) => {
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
-        sx={{ mr: 1 }}
       />
       <TextField
         label="Модель автомобиля"
@@ -53,12 +52,11 @@ const EditRacerForm = ({ racer, onClose }) => {
         value={carModel}
         onChange={(e) => setCarModel(e.target.value)}
         required
-        sx={{ mr: 1 }}
       />
       <Button type="submit" variant="contained" color="primary">
         Сохранить
       </Button>
-      <Button onClick={onClose} variant="outlined" color="secondary" sx={{ ml: 1 }}>
+      <Button onClick={onClose} variant="outlined" color="secondary">
         Отменить
       </Button>
     </Box>

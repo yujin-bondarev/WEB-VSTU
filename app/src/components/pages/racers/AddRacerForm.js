@@ -38,14 +38,7 @@ const AddRacerForm = () => {
   };
 
   return (
-    <Box component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
+    <Box component="form" onSubmit={handleSubmit}>
       <Typography variant="h6">Добавить гонщика</Typography>
       <TextField
         label="Имя"
@@ -53,7 +46,6 @@ const AddRacerForm = () => {
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
-        sx={{ mr: 1 }}
       />
       <TextField
         label="Модель автомобиля"
@@ -61,7 +53,6 @@ const AddRacerForm = () => {
         value={carModel}
         onChange={(e) => setCarModel(e.target.value)}
         required
-        sx={{ mr: 1 }}
       />
       <Button type="submit" variant="contained" color="primary">
         Добавить

@@ -21,14 +21,11 @@ export const fetchRacers = createAsyncThunk('racers/fetchRacers', async () => {
 });
 
 // Асинхронный thunk для удаления гонщика
-export const deleteRacer = createAsyncThunk('racers/deleteRacer', async ({ id }, { rejectWithValue }) => {
+export const deleteRacer = createAsyncThunk('racers/deleteRacer', async (id, { rejectWithValue }) => {
   try {
     await axios.delete(`${BASE_URL}/racers/${id}`, getAuthHeaders());
     return id;
   } catch (error) {
-    if (error.response && error.response.status === 403) {
-      return rejectWithValue('Ошибка 403: У вас нет прав для удаления гонщика.');
-    }
     return rejectWithValue('Ошибка при удалении гонщика.');
   }
 });
@@ -39,9 +36,6 @@ export const addRacer = createAsyncThunk('racers/addRacer', async (newRacer, { r
     const response = await axios.post(`${BASE_URL}/racers`, newRacer, getAuthHeaders());
     return response.data;
   } catch (error) {
-    if (error.response && error.response.status === 403) {
-      return rejectWithValue('Ошибка 403: У вас нет прав для добавления гонщика.');
-    }
     return rejectWithValue('Ошибка при добавлении гонщика.');
   }
 });
@@ -52,9 +46,6 @@ export const editRacer = createAsyncThunk('racers/editRacer', async ({ id, name,
     const response = await axios.put(`${BASE_URL}/racers/${id}`, { name, carModel }, getAuthHeaders());
     return response.data;
   } catch (error) {
-    if (error.response && error.response.status === 403) {
-      return rejectWithValue('Ошибка 403: У вас нет прав для редактирования гонщика.');
-    }
     return rejectWithValue('Ошибка при редактировании гонщика.');
   }
 });

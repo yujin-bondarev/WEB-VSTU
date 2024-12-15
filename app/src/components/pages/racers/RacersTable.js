@@ -1,43 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, TableBody, TableCell, Button, TableHead, TableRow, Paper, CssBaseline, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, Button, TableHead, TableRow, Paper, CssBaseline, Typography, Container } from '@mui/material';
 import AddRacerForm from './AddRacerForm';
 import EditRacerForm from './EditRacerForm';
 import { fetchRacers, deleteRacer } from '../../../redux/racersSlice';
 
 const RacersTable = () => {
-  const racers = useSelector(state => state.racers);
+  const racers = useSelector(state => state.racers.racers);
   const dispatch = useDispatch();
-  const [editingRacer, setEditingRacer] = useState(null); 
+  const [editingRacer, setEditingRacer] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    dispatch(fetchRacers(token)); 
+    dispatch(fetchRacers());
   }, [dispatch]);
 
   const handleDeleteRacer = async (id) => {
-    const token = localStorage.getItem('token');
     try {
-      await dispatch(deleteRacer({ id, token })).unwrap();
+      await dispatch(deleteRacer(id)).unwrap();
     } catch (error) {
       alert(error);
     }
   };
 
   const handleEditRacer = (racer) => {
-    setEditingRacer(racer); 
+    setEditingRacer(racer);
   };
 
   const closeEditForm = () => {
-    setEditingRacer(null); 
+    setEditingRacer(null);
   };
 
 
   return (
     <div>
       <CssBaseline>
-        <AddRacerForm />
-        <Paper sx={{ p: 3, maxWidth: 800, mx: 'auto', mt: 2 }}>
+        <Container>
+          <AddRacerForm />
+        </Container>
+        
+        <Paper style={{ padding: 3, maxWidth: 800, margin: 'auto', marginTop: 16 }}>
           <Table>
             <TableHead>
               <TableRow>
