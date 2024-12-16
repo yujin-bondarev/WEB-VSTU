@@ -1,29 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../axios/axiosConfig'; // Импортируйте настроенный экземпляр Axios
 
-// Константа для базового URL
 const BASE_URL = 'http://localhost:8080';
-
-// Функция для получения заголовков с токеном
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-};
 
 // Асинхронный thunk для загрузки гонщиков
 export const fetchRacers = createAsyncThunk('racers/fetchRacers', async () => {
-  const response = await axios.get(`${BASE_URL}/racers`, getAuthHeaders());
+  const response = await axios.get(`${BASE_URL}/racers`);
   return response.data;
 });
 
 // Асинхронный thunk для удаления гонщика
 export const deleteRacer = createAsyncThunk('racers/deleteRacer', async (id, { rejectWithValue }) => {
   try {
-    await axios.delete(`${BASE_URL}/racers/${id}`, getAuthHeaders());
+    await axios.delete(`${BASE_URL}/racers/${id}`);
     return id;
   } catch (error) {
     return rejectWithValue('Ошибка при удалении гонщика.');
@@ -33,7 +22,7 @@ export const deleteRacer = createAsyncThunk('racers/deleteRacer', async (id, { r
 // Асинхронный thunk для добавления гонщика
 export const addRacer = createAsyncThunk('racers/addRacer', async (newRacer, { rejectWithValue }) => {
   try {
-    const response = await axios.post(`${BASE_URL}/racers`, newRacer, getAuthHeaders());
+    const response = await axios.post(`${BASE_URL}/racers`, newRacer);
     return response.data;
   } catch (error) {
     return rejectWithValue('Ошибка при добавлении гонщика.');
@@ -43,7 +32,7 @@ export const addRacer = createAsyncThunk('racers/addRacer', async (newRacer, { r
 // Асинхронный thunk для редактирования гонщика
 export const editRacer = createAsyncThunk('racers/editRacer', async ({ id, name, carModel }, { rejectWithValue }) => {
   try {
-    const response = await axios.put(`${BASE_URL}/racers/${id}`, { name, carModel }, getAuthHeaders());
+    const response = await axios.put(`${BASE_URL}/racers/${id}`, { name, carModel });
     return response.data;
   } catch (error) {
     return rejectWithValue('Ошибка при редактировании гонщика.');

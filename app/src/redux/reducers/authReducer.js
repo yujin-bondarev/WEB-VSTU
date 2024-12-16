@@ -1,23 +1,44 @@
-import { createReducer } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axiosInstance from '../../axios/axiosConfig';
 
 const initialState = {
   isLoggedIn: false,
-  token: null, // поле для хранения токена
+  token: null,
+  error: null,
 };
 
-const authReducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase('LOGIN', (state, action) => {
-      state.isLoggedIn = true;
-      state.token = action.payload.token; 
-    })
-    .addCase('LOGOUT', (state) => {
-      state.isLoggedIn = false;
-      state.token = null; 
-    });
+export const login = createAsyncThunk('auth/login', async ({ username, password }, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.post('/authenticate', { name: username, password });
+    localStorage.setItem('token', response.data.jwtToken);
+    return response.data.jwtToken;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
 });
 
-export const login = (token) => ({ type: 'LOGIN', payload: { token } });
-export const logout = () => ({ type: 'LOGOUT' });
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    logout: (state) => {
+      state.isLoggedIn = false;
+      state.token = null;
+      localStorage.removeItem('token'); // Удалите токен из localStorage
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.token = action.payload;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.error = action.payload;
+      });
+  },
+});
 
-export default authReducer;
+export const { logout } = authSlice.actions;
+
+export default authSlice.reducer;

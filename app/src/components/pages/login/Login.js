@@ -1,30 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { login } from '../../../redux/reducers/authReducer';
 import { TextField, Button, Box, Typography, CssBaseline } from '@mui/material';
-import axios from 'axios';
-import { login } from '../../../redux/reducers/authReducer'; 
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:8080/authenticate', {
-        name: username,
-        password: password,
-      });
-
-      if (response.status === 200) {
-        
-        localStorage.setItem('token', response.data.jwtToken);
-        dispatch(login()); 
-      }
-    } catch (error) {
-      alert('Неверный логин или пароль');
-    }
+    dispatch(login({ username, password }));
   };
 
   return (
